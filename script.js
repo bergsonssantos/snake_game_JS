@@ -6,7 +6,9 @@ snake[0] = {
     x: 8 * box,
     y: 8 * box
 }
+
 let direction = "rigth";
+
 let comida = {
     x: Math.floor(Math.random() * 15 +1) * box,
     y: Math.floor(Math.random() * 15 +1) * box
@@ -25,7 +27,7 @@ function criarCobrinha(){
 }
 
 function desenharComida() {
-    context.fillStyle = "#F78733";
+    context.fillStyle = "#007849";
     context.fillRect(comida.x, comida.y, box, box);
 
 }
@@ -39,13 +41,26 @@ function update (event) {
     if ((event.keyCode == 40) && (direction != "up")) direction = "down";
 }
 
-function iniciarJogo(){
+function delimitarTela(){
     if (snake[0].x > 15 * box && direction == "right") snake[0].x = 0;
     if (snake[0].y > 15 * box && direction == "down") snake[0].y = 0;
     if (snake[0].x < 0 && direction == "left") snake[0].x = 15*box;
     if (snake[0].y < 0 && direction == "up") snake[0].y = 15*box;
+}
 
+function verificarMorte(){
+    for (i = 1; i < snake.length; i++) {
+        if (snake[0].x == snake[i].x && snake[0].y == snake[i].y) {
+            clearInterval(jogo);
+            alert("Poxa vida! Você perdeu :(");
+        }
+    }
+}
 
+function iniciarJogo(){
+    
+    verificarMorte();
+    delimitarTela();
     criarBg();
     criarCobrinha();
     desenharComida();
